@@ -1,0 +1,84 @@
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(calc(150px*1.2), 1fr));
+    /* Cambia el ancho mínimo (150px) según tus necesidades */
+    gap: 50px;
+    /* Espacio entre las cartas */
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 992px) {
+
+    /* Cambia a 2 columnas cuando el ancho de la pantalla sea 768px o menos */
+    .tablero {
+        grid-template-columns: repeat(2, minmax(calc(150px * 1.2), 1fr));
+    }
+}
+
+
+.carta {
+    background-color: rgb(4, 39, 137);
+    padding: 10px;
+    margin: 10px;
+    width: calc(150px*1.2);
+    /* Ajusta el ancho del div según tus necesidades */
+    height: calc(200px*1.2);
+    /* Ajusta la altura del div según tus necesidades */
+    display: flex;
+    justify-content: center;
+    /* Centra la imagen horizontalmente */
+    align-items: center;
+    /* Centra la imagen verticalmente */
+
+    perspective: 1000px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.carta-contenedor {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.mostrar .carta .carta-contenedor {
+    transform: rotateY(180deg);
+}
+
+.carta-frente,
+.carta-espalda {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.carta-frente {
+    transform: rotateY(180deg);
+}
+
+.carta:hover {
+    box-shadow: 0px 0px 96px 34px rgba(255, 204, 255, 0.77);
+
+}
+
+.imagen-carta {
+    width: 100%;
+    /* La imagen toma todo el ancho disponible del div */
+    height: 100%;
+    /* La imagen toma todo el alto disponible del div */
+    object-fit: cover;
+    /* Escala la imagen para que llene el espacio sin distorsión */
+}
+
+
+img {
+    pointer-events: none;
+}
