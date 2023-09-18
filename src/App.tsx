@@ -1,19 +1,21 @@
 import { useState } from 'react'
 import './App.css'
 import Tablero from './components/Tablero'
+import { GanasteMensaje } from './components/GanasteMensaje'
+import { createPortal } from 'react-dom'
+import { MenuOpciones } from './components/MenuOpciones'
 
 function App () {
-  const [count, setCount] = useState(0)
-
+  const [dificultad, setDificultad] = useState(0)
+  const [gano, setGano] = useState(false)
+  function seGano () {
+    setGano(true)
+  }
   return (
     <>
-      <Tablero></Tablero>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </button>
+    {gano && createPortal(<GanasteMensaje cerrar={() => setGano(false)}></GanasteMensaje>, document.body)}
+      <Tablero key={+gano} onWin={seGano} cantidadCartas={dificultad}></Tablero>
+      <MenuOpciones dificultadSeleccionada={(dif) => setDificultad(dif)}></MenuOpciones>
     </>
   )
 }
