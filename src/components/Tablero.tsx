@@ -6,10 +6,11 @@ import { CartaGame } from './interface'
 
 interface Props{
   onWin?: ()=>void,
-  cantidadCartas?: number
+  cantidadCartas?: number,
+  incrementarIntentos?: ()=>void,
 }
 
-export default function Tablero ({ cantidadCartas = 4, onWin }:Props) {
+export default function Tablero ({ cantidadCartas = 4, onWin, incrementarIntentos }:Props) {
   const [cartas, setCartas] = useState<CartaGame[]>([])
   const [cartasGanadas, setCartasGanadas] = useState(0)
   const [cartasSeleccionadas, setCartasSeleccionadas] = useState<CartaGame[]>([])
@@ -38,16 +39,20 @@ export default function Tablero ({ cantidadCartas = 4, onWin }:Props) {
   )
 
   useEffect(() => {
+    console.log('re render')
     let timeout = 0
     if (cartasSeleccionadas.length === 2) {
       timeout = setTimeout(comprobarMatchCartas, 500)
     }
     return () => clearTimeout(timeout)
-  }, [cartasSeleccionadas, comprobarMatchCartas])
+  }, [cartasSeleccionadas, comprobarMatchCartas, incrementarIntentos])
 
   function handleClickCarta (carta:CartaGame) {
     if (cartasSeleccionadas.length < 2) {
       levantarCartaYSeleccionar(carta)
+    }
+    if (cartasSeleccionadas.length === 1) {
+      incrementarIntentos?.()
     }
   }
 
