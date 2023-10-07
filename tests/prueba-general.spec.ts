@@ -1,4 +1,4 @@
-import { test, expect, Locator } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test('prueba general juego', async ({ page }) => {
   await page.goto('http://localhost:5173/')
@@ -80,4 +80,26 @@ test('contador de intentos', async ({ page }) => {
   await page.getByRole('button', { name: 'Aceptar' }).click()
   await expect(page.getByRole('heading', { name: 'Intentos: 0' })).toContainText('0')
   await expect(cartas).toHaveCount(4)
+})
+
+test('cambiar entre dificultadas resetea las cartas seleccionadas', async ({ page }) => {
+  await page.goto('http://localhost:5173/')
+  const cartas = page.locator('.carta-contenedor')
+  await expect(cartas).toHaveCount(2)
+  await expect(page.getByRole('heading', { name: 'Intentos: 0' })).toContainText('0')
+
+  await page.getByRole('button', { name: '2' }).click()
+  await expect(cartas).toHaveCount(2 * 2)
+  // seleccionar primera carta de dificultad 2
+  await page.locator('.carta-espalda').first().click()
+  // pasar a dificultad 1
+  await page.getByRole('button', { name: '1' }).click()
+  await expect(cartas).toHaveCount(2)
+  // seleccionar las dos cartas y esperar que diga ganar, si se reseta correctamente esto deberia funcionar
+  await page.locator('.carta-espalda').first().click()
+  await page.locator('main:nth-child(2) > .carta > .carta-contenedor > .carta-espalda').click()
+  await expect(page.getByRole('heading', { name: 'Intentos: 1' })).toContainText('1')
+  await page.getByRole('button', { name: 'Aceptar' }).click()
+  await expect(page.getByRole('heading', { name: 'Intentos: 0' })).toContainText('0')
+  await expect(cartas).toHaveCount(2)
 })

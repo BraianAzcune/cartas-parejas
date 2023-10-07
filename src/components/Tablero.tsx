@@ -17,6 +17,7 @@ export default function Tablero ({ cantidadCartas = 4, onWin, incrementarIntento
 
   useEffect(() => {
     setCartas(generarPares(getRandomCartas(cantidadCartas)))
+    setCartasSeleccionadas([])
   }, [cantidadCartas])
 
   const comprobarMatchCartas = useCallback(
