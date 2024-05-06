@@ -1,3 +1,5 @@
+[![Video preview](https://img.youtube.com/vi/C_LMYqaDYfc/hqdefault.jpg)](https://youtu.be/C_LMYqaDYfc)
+
 ### TODO
 
 hacer testing con playwright, antes de cambiar cualquier cosa.
